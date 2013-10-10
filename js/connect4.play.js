@@ -1,57 +1,130 @@
 /*jslint browser:true */
-/*global connect4:false, alert: false, confirm: false, console: false, Debug: false, opera: false, prompt: false, WSH: false */
-connect4.play = function () {
-    "use strict";
-    var isPlayer1 = true, //flag to indicate if it's player1 turn "true" (or player2 turn "false")
-        x, // x coordinate
-        y; // y coordinate
+/*global $: false, connect4: false, alert: false, confirm: false, console: false, Debug: false, opera: false, prompt: false, WSH: false */
+var xpos = 3,
+    isPlayer1 = true;
 
+connect4.play = (function () {
+    "use strict";
+    //PRIVATE AREA
+    var getColor = function () {
+        return (isPlayer1 === true) ? "blobRed" : "blobBlue";
+    },
+        moveBlob = function (oldpos) {
+            $("#head").children().eq(oldpos).toggleClass(getColor()).toggleClass("headVoid");
+            $("#head").children().eq(xpos).toggleClass("headVoid").toggleClass(getColor());
+        },
+        setPiece = function () {
+            var ypos = connect4.logic.setPiece(xpos, isPlayer1);
+
+            $("#row" + ypos).children().eq(xpos).toggleClass("cellVoid").toggleClass(getColor());
+            return ypos;
+        },
+        changePlayer = function () {
+            $("#head").children().eq(xpos).toggleClass(getColor()).toggleClass("headVoid");
+            isPlayer1 = !isPlayer1;
+            xpos = 3;
+            $("#head").children().eq(xpos).toggleClass("headVoid").toggleClass(getColor());
+        },
+        disableEvents = function () {
+            $(window).unbind();
+            $("#head").unbind();
+        },
+        showMsgEnd = function (msg) {
+            $("#head").toggle();
+            $("#msgVictory").toggle().children("h2").text(msg);
+
+        },
+        checkResult = function (ypos) {
+            var player_desc = (isPlayer1 === true) ? connect4.config.PLAYER_1_DESC : connect4.config.PLAYER_2_DESC;
+            if (connect4.logic.isPlayerWin(xpos, ypos, isPlayer1)) {
+                showMsgEnd("player " + player_desc + " win!!!!");
+                disableEvents();
+            } else if (connect4.logic.isDraw()) {
+                showMsgEnd("Drawwww!!!!");
+                disableEvents();
+            } else if (!connect4.board.isColumnPlenty(ypos)) {
+                changePlayer();
+            }
+        },
+        enableEvents = function () {
+            //keyboard actions
+            $(window).keydown(function (event) {
+                var ypos,
+                    moveBlobLeft = function () {
+                        var oldpos = xpos;
+                        if (xpos > 0) {
+                            xpos = xpos - 1;
+                        }
+
+                        moveBlob(oldpos);
+                    },
+                    moveBlobRight = function () {
+                        var oldpos = xpos;
+                        if (xpos < (connect4.config.X_CORD - 1)) {
+                            xpos = xpos + 1;
+                        }
+
+                        moveBlob(oldpos);
+                    };
+                switch (event.which) {
+                case 37: //left
+                    moveBlobLeft();
+                    break;
+                case 39: //right
+                    moveBlobRight();
+                    break;
+                case 13: //enter
+                case 40: //down
+                    ypos = setPiece();
+                    checkResult(ypos);
+                    break;
+                }
+            });
+
+            //mouse movement action
+            $("#head").children().mousemove(function () {
+                var oldpos = xpos;
+                //we obtain the new xpos
+                xpos = Number($(this).attr("name"));
+                moveBlob(oldpos);
+            });
+
+            //mouse click action
+            $("#head").children().click(function () {
+                var ypos;
+                //if mouse is in same position as the piece (when we click, we set players piece, but we change player turn, 
+                //the new player piece is initialized in half board, so its posible than mouse position and piece position not coincide, 
+                //with this if avoid undesired piece setting
+                if (Number($(this).attr("name")) === xpos) {
+                    ypos = setPiece();
+                    checkResult(ypos);
+                }
+            });
+        };
+
+    //PUBLIC AREA
+    return {
+        enableEvents: function () {
+            enableEvents();
+        },
+        disableEvents: function () {
+            disableEvents();
+        },
+        disableGraphicMode: function () {
+            showMsgEnd("Disabled...");
+            disableEvents();
+        }
+    };
+}());
+
+//execution    
+$(function () {
+    "use strict";
     //initialition of the board
     connect4.board.initBoard();
 
-    //whe continue until the game end
-    while (true) {
+    //we enable Events
+    connect4.play.enableEvents();
 
-        //print the mainBoard
-        connect4.ui.showBoard();
-
-        //ask player where he/she want put the piece
-        x = connect4.ui.askPlayerPosition(isPlayer1);
-
-        //if user have write the exit word, its the end of the game
-        if ((connect4.logic.isExit(x))) {
-            break;
-        }
-
-        //(else) If the user entry is a number and is in limits continue, (else) we ask again
-        if (connect4.logic.isNumber(x)) {
-            //if it's a number we forze it to be a number, and substract 1 to convert it in array index (begin in 0)
-            x = Number(x) - 1;
-            if (connect4.board.isXinBoardLimits(x)) {
-
-                //set the piece in the board and obtain the "y" coordenate, now we now the x and y coordenates
-                y = connect4.logic.setPiece(x, isPlayer1);
-
-                //if the column where the player try to put the piece is full continue,(else) we ask again
-                if (!connect4.board.isColumnPlenty(y)) {
-                    //we show the Board because if the game ends(win or draw) we want to have the board refresh before the alert
-                    connect4.ui.showBoard();
-
-                    //if player have win, show result and exit
-                    if (connect4.logic.isPlayerWin(x, y, isPlayer1)) {
-                        connect4.ui.showWinner(isPlayer1);
-                        break;
-                    }
-                    if (connect4.logic.isDraw()) {
-                        connect4.ui.showDraw();
-                        break;
-                    }
-
-                    //(else) the player have not win, we change the player for the next round
-                    isPlayer1 = !isPlayer1;
-                }
-            }
-        }
-    }
-    connect4.ui.sayBye();
-};
+    console.log("Wellcome to connect 4!!!,\nif you prefer, it's possible to play in console mode writing 'connect4.activeConsole()',\nit will continue with the current game but then it's not posible to go back to graphic mode");
+});

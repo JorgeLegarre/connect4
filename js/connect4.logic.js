@@ -8,7 +8,7 @@ connect4.logic = (function () {
 
     return {
         isExit: function (val) {
-            return val.toLowerCase() === connect4.config.EXIT;
+            return val !== null && val.toLowerCase() === connect4.config.EXIT;
         },
         isNumber: function (x) {
             return !isNaN(x);

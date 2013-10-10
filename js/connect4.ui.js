@@ -67,7 +67,7 @@ connect4.ui = (function () {
         },
         //get de player description
         getPlayerDesc = function (isPlayer1) {
-            return isPlayer1 ? "Player 1(" + connect4.config.PLAYER_1_ID + ")" : "Player 2(" + connect4.config.PLAYER_2_ID + ")";
+            return isPlayer1 ? "Player 1(" + connect4.config.PLAYER_1_DESC + ")" : "Player 2(" + connect4.config.PLAYER_2_DESC + ")";
         };
     /*PUBLIC FUNCTIONS*/
     return {
@@ -78,7 +78,7 @@ connect4.ui = (function () {
         //ask with to a player, position where want to put a piece, or to write the exit word
         askPlayerPosition: function (isPlayer1) {
             var player_text = getPlayerDesc(isPlayer1);
-            return prompt(player_text + " vilket nummer. Skriv '" + connect4.config.EXIT + "' för att sluta");
+            return prompt(player_text + " vilket nummer. Skriv '" + connect4.config.EXIT + "' för att sluta eller kom tillbaka till grafikläge");
         },
         showWinner: function (isPlayer1) {
             var playerDesc = getPlayerDesc(isPlayer1);

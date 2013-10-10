@@ -1,10 +1,94 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<title>Connect 4</title>
-<script type="text/javascript" src="js/connect4.js"></script>
-<script type="text/javascript" src="js/connect4.config.js"></script>
-<script type="text/javascript" src="js/connect4.board.js"></script>
-<script type="text/javascript" src="js/connect4.ui.js"></script>
-<script type="text/javascript" src="js/connect4.logic.js"></script>
-<script type="text/javascript" src="js/connect4.logic.count.js"></script>
-<script type="text/javascript" src="js/connect4.play.js"></script>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Connect 4</title>
+        <link rel="stylesheet" href="css/reset.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
+    </head>
+    <body>
+        <h1>Connect 4</h1>
+        <div class="mainframe">
+            <div class="centerframe">
+                <div class="board">
+                    <div id="msgVictory" class="headHidden">
+                        <h2></h2>
+                    </div>
+                    <div id="head" class="head">
+                        <div class="headVoid" name="0">&nbsp;</div>
+                        <div class="headVoid" name="1">&nbsp;</div>
+                        <div class="headVoid" name="2">&nbsp;</div>
+                        <div class="blobRed" name="3">&nbsp;</div>
+                        <div class="headVoid" name="4">&nbsp;</div>
+                        <div class="headVoid" name="5">&nbsp;</div>
+                        <div class="headVoid" name="6">&nbsp;</div>
+                    </div>
+                    <div id="row0">
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                    </div>
+                    <div id="row1">
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                    </div>
+                    <div id="row2">
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                    </div>
+                    <div id="row3">
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                    </div>
+                    <div id="row4">
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                    </div>
+                    <div id="row5">
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                        <div class="cellVoid">&nbsp;</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script type="text/javascript" src="js/connect4.js"></script>
+        <script type="text/javascript" src="js/connect4.config.js"></script>
+        <script type="text/javascript" src="js/connect4.board.js"></script>
+        <script type="text/javascript" src="js/connect4.ui.js"></script>
+        <script type="text/javascript" src="js/connect4.logic.js"></script>
+        <script type="text/javascript" src="js/connect4.logic.count.js"></script>
+        <script type="text/javascript" src="js/connect4.play.js"></script>
+        <script type="text/javascript" src="js/connect4.play.console.js"></script>
+    </body>
+</html>
