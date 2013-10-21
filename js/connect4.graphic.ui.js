@@ -5,8 +5,8 @@ connect4.graphic.ui = (function () {
     //PRIVATE AREA
     //show a msg in the head
     var showMsgEnd = function (msg) {
-        $("#head").toggle();
-        $("#msgVictory").toggle().children("h2").text(msg);
+        $("#head").hide();
+        $("#msgVictory").show().children("h2").text(msg);
 
     },
         cleanMsg = function () {
@@ -18,7 +18,7 @@ connect4.graphic.ui = (function () {
             return (isPlayer1 === true) ? "blobRed" : "blobBlue";
         },
         //dinamic initialition of the board acording to the config sizes
-        initGraphicBoard = function (xpos) {
+        initGraphicBoard = function (xpos, isPlayer1) {
             var i, j, divRow, divCol,
                 //creation of the head of the table (place where move pieces)
                 createHead = function () {
@@ -57,8 +57,8 @@ connect4.graphic.ui = (function () {
             //creation of the head   
             createHead();
 
-            //we set the first player piece in xpos, we send true to getColor, because in the initialition, isPlayer1 is true
-            $("#head").children().eq(xpos).toggleClass("headVoid").toggleClass(getColor(true));
+            //we set the first player piece in xpos
+            $("#head").children().eq(xpos).toggleClass("headVoid").toggleClass(getColor(isPlayer1));
 
             //creation of the body
             createBody();
@@ -125,11 +125,14 @@ connect4.graphic.ui = (function () {
         cleanMsg: function () {
             cleanMsg();
         },
-        initGraphicBoard: function (xpos) {
-            initGraphicBoard(xpos);
+        initGraphicBoard: function (xpos, isPlayer1) {
+            initGraphicBoard(xpos, isPlayer1);
         },
         printBoard: function (xpos, isPlayer1) {
             printBoard(xpos, isPlayer1);
+        },
+        showWaiting: function () {
+            showMsgEnd("Waiting movement...");
         }
     };
 }());

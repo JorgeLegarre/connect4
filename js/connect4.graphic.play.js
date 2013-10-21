@@ -1,5 +1,5 @@
 /*jslint browser:true */
-/*global $: false, connect4: false, alert: false, confirm: false, console: false, Debug: false, opera: false, prompt: false, WSH: false */
+/*global $: false, connect4: false, peerConnect:false,alert: false, confirm: false, console: false, Debug: false, opera: false, prompt: false, WSH: false */
 connect4.graphic.play = (function () {
     "use strict";
     var xpos,
@@ -23,23 +23,35 @@ connect4.graphic.play = (function () {
             $("#head").children().unbind();
         },
         checkResult = function (ypos) {
-            //we obtain the player text description
-            var player_desc = (isPlayer1 === true) ? connect4.config.PLAYER_1_DESC : connect4.config.PLAYER_2_DESC;
+            var endOfGame = true,
+                //we obtain the player text description
+                player_desc = (isPlayer1 === true) ? connect4.config.PLAYER_1_DESC : connect4.config.PLAYER_2_DESC;
 
             //we check if the player have win
             if (connect4.logic.isPlayerWin(xpos, ypos, isPlayer1)) {
                 connect4.graphic.ui.showMsgEnd("player " + player_desc + " win!!!!");
+
                 disableEvents();
             } else if (connect4.logic.isDraw()) { //if not, we check if it´s a draw
                 connect4.graphic.ui.showMsgEnd("Drawwww!!!!");
                 disableEvents();
             } else if (!connect4.board.isColumnPlenty(ypos)) { //if not, we change player to change turn
                 changePlayer();
+                endOfGame = false;
             }
+            return endOfGame;
+        },
+        setMove = function (receivedXpos) {
+            var ypos;
+            xpos = receivedXpos;
+
+            ypos = setPiece();
+            return checkResult(ypos);
+
         },
         enableEvents = function () {
             //keyboard actions, they are used to move the piece left, right and down
-            $(window).keydown(function (event) {
+            /*$(window).keydown(function (event) {
                 var ypos,
                     moveBlobLeft = function () {
                         if (xpos > 0) {
@@ -62,13 +74,13 @@ connect4.graphic.play = (function () {
                 case 39: //right
                     moveBlobRight();
                     break;
-                case 13: //enter
+                    //case 13: //enter
                 case 40: //down
                     ypos = setPiece();
                     checkResult(ypos);
                     break;
                 }
-            });
+            });*/
 
             //mouse movement action
             $("#head").children().mousemove(function () {
@@ -80,11 +92,16 @@ connect4.graphic.play = (function () {
 
             //mouse click action
             $("#head").children().click(function () {
-                var ypos;
+                var currentPos = xpos,
+                    endOfGame;
                 //is possible that not coincide because we can left the mouse in a row and move with keyboard
                 if (Number($(this).attr("name")) === xpos) {
-                    ypos = setPiece();
-                    checkResult(ypos);
+
+                    endOfGame = setMove(xpos);
+                    peerConnect.sendMove(currentPos);
+                    if (!endOfGame) {
+                        connect4.graphic.ui.showWaiting();
+                    }
                 }
             });
         },
@@ -121,7 +138,14 @@ connect4.graphic.play = (function () {
             disableGraphicMode();
             connect4.console.play.activateConsole(isPlayer1);
         },
-        play: function () {
+        setMove: function (xpos) {
+            var endOfGame = setMove(xpos);
+            if (!endOfGame) {
+                connect4.graphic.ui.cleanMsg();
+            }
+        },
+        play: function (firstIsPlayer1) {
+            isPlayer1 = firstIsPlayer1;
             //we calculate center of the board to use it like start point of the pieces
             initXpos();
 
@@ -129,7 +153,7 @@ connect4.graphic.play = (function () {
             connect4.board.initBoard();
 
             //init of the graphic board
-            connect4.graphic.ui.initGraphicBoard(xpos);
+            connect4.graphic.ui.initGraphicBoard(xpos, isPlayer1);
 
             //we enable Events
             enableEvents();

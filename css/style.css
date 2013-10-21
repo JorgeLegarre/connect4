@@ -25,11 +25,19 @@ h2 {
     float: left;
     background-color: black;
 }
-.centerframe{
+.rightframe{
+    position: relative;
+    float: left;
     width: 70%;
     height: 100%;
     margin-right: auto;
     margin-left: auto;
+}
+.leftframe{
+    position: relative;
+    float: left;
+    width: 27%;
+    margin-left: 3%;
 }
 .board{
     width:560px;

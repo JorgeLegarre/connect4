@@ -5,11 +5,39 @@
         <title>Connect 4</title>
         <link rel="stylesheet" href="css/reset.css"/>
         <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/peerChat.css"/>
+        <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     </head>
     <body>
         <h1>Connect 4</h1>
         <div class="mainframe">
-            <div class="centerframe">
+            <div class=leftframe>
+                <div id="login">
+                    <h3>Please login</h3>
+                    Username: <input type="text" id="username"></input>&nbsp;<input type="button" value="login" id="loginButton"></input>
+                </div>
+                <div class="chat" id="chat">
+                    <h3>Username: <span class="user" id="user"></span>&nbsp;<input type="button" value="change" id="usernameButton"></input></h3>
+                    <div id="connectPanel">
+                        <h3>My Id: <span id="myId"></span></h3>
+                        <div>
+                            ID host:&nbsp;<input type="text" id="idHost"></input>&nbsp;<input type="button" value="connect" id="connect"></input>&nbsp;<input type="button" value="disconnect" id="disconnect"></input>
+                        </div>
+                    </div>
+                    <div>
+                        Status:&nbsp;<span id="status"></span>
+                    </div>
+                    <br/>
+                    <div class="chatWindow">
+                        <div class="chatText" id="chatText"></div>
+                        <div class="chatInput">
+                            <input type="text" id="textSend"></input><input type="button" value="send" id="send"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rightframe">
                 <div class="board" id="board">
                     <div id="msgVictory" class="headHidden">
                         <h2></h2>
@@ -17,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script type="text/javascript" src="js/peerConnect.js"></script>
         <script type="text/javascript" src="js/connect4.js"></script>
         <script type="text/javascript" src="js/connect4.config.js"></script>
         <script type="text/javascript" src="js/connect4.board.js"></script>
@@ -25,7 +53,5 @@
         <script type="text/javascript" src="js/connect4.logic.count.js"></script>
         <script type="text/javascript" src="js/connect4.graphic.play.js"></script>
         <script type="text/javascript" src="js/connect4.graphic.ui.js"></script>
-        <script type="text/javascript" src="js/connect4.console.ui.js"></script>
-        <script type="text/javascript" src="js/connect4.console.play.js"></script>
     </body>
 </html>
