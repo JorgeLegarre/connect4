@@ -1,6 +1,6 @@
 /*jslint browser:true */
 /*global connect4:false, alert: false, confirm: false, console: false, Debug: false, opera: false, prompt: false, WSH: false */
-connect4.ui = (function () {
+connect4.console.ui = (function () {
     "use strict";
     /*PRIVATE FUNCTIONS*/
     //print the head of the board, numerics 1 2 3 4 5 acording the x_axis size
@@ -91,6 +91,9 @@ connect4.ui = (function () {
         },
         sayBye: function () {
             console.log("Bye bye!!!!");
+        },
+        showActivateConsole: function () {
+            console.log("Wellcome to connect 4!!!,\nif you prefer, it's possible to play in console mode writing 'connect4.graphic.play.activeConsole()',\nit will continue with the current game but then it's not posible to go back to graphic mode");
         }
     };
 }());
